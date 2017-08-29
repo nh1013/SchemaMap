@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2017
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchemaMap", "SchemaMap.csproj", "{EE74EB91-65A4-71D8-0042-778AF5B84352}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchemaMap.Plugins", "SchemaMap.Plugins.csproj", "{4055B2E3-D989-471B-30BA-932A69865887}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchemaMap.Editor", "SchemaMap.Editor.csproj", "{8A72F5C7-405A-8A45-6CC0-DC32DEB370B1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE74EB91-65A4-71D8-0042-778AF5B84352}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE74EB91-65A4-71D8-0042-778AF5B84352}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE74EB91-65A4-71D8-0042-778AF5B84352}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE74EB91-65A4-71D8-0042-778AF5B84352}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4055B2E3-D989-471B-30BA-932A69865887}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4055B2E3-D989-471B-30BA-932A69865887}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4055B2E3-D989-471B-30BA-932A69865887}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4055B2E3-D989-471B-30BA-932A69865887}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A72F5C7-405A-8A45-6CC0-DC32DEB370B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A72F5C7-405A-8A45-6CC0-DC32DEB370B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A72F5C7-405A-8A45-6CC0-DC32DEB370B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A72F5C7-405A-8A45-6CC0-DC32DEB370B1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

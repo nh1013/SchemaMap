@@ -1,0 +1,21 @@
+MatchResult [16,18]
+Users\nicky\Dropbox\ICL\Y4\541_individual_project\examples\personCarCity\personCarCity_source
+Users\nicky\Dropbox\ICL\Y4\541_individual_project\examples\personCarCity\personCarCity_target
+--------------------------------------------------------
+ - cityRegion.cityName <-> city.name: 0.494729
+ - cityRegion.region <-> city.region: 0.846429
+ - cityRegion <-> city: 0.522222
+ - personCar2.personName <-> person.name: 0.22
+ - personCar2.carModel <-> car.model: 1.0
+ - personCar1.age <-> person.age: 0.79438
+ - personCar1.carPlate <-> car.plate: 0.44638
+ - personCar1 <-> person.name: 1.0
+ - personCar1 <-> person: 0.531618
+ - personCity.cityName <-> person.name: 0.517646
+ - personCity <-> city.name: 0.72
+ - personCity <-> person.name: 1.0
+ - carMake.carModel <-> car.model: 0.525093
+ - carMake.makeName <-> make.name: 0.442582
+ - carMake <-> car.model: 0.344
+ + Total: 15 correspondences
+--------------------------------------------------------
