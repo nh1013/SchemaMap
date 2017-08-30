@@ -16,18 +16,6 @@ public struct StrPair {
     }
 }
 
-/*
-public struct Table {
-    public string name;
-    public List<StrPair> fields;
-
-    public Table(string _name, List<StrPair> _fields) {
-        name = _name;
-        fields = _fields;
-    }
-}
-*/
-
 public class FileManager : MonoBehaviour {
 
     public ControlPanel controlPanel;
@@ -108,7 +96,8 @@ public class FileManager : MonoBehaviour {
             Debug.Log("file not found: " + path);
             return;
         }
-        
+
+        controlPanel.Select(null); // clear control panel selections
         SchemaManager schemaManager = TargetManager;
         if (isSourceType) {
             schemaManager = SourceManager;
@@ -190,6 +179,7 @@ public class FileManager : MonoBehaviour {
             return;
         }
 
+        controlPanel.Select(null);
         MapManager.ClearBeams();
         StreamReader sr = new StreamReader(path);
         sr.ReadLine(); // discard first line

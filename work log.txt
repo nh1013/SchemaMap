@@ -1,0 +1,23 @@
+selection outline not working, shows up on control panel instead
+Want: haptic feedback when scrolling over objects
+
+hide laser on jump, or change it to laser format
+fix outline
+Want: unselect item with second click
+
+Only one field cell highlighted at the same time
+Amend SteamVR_Teleporter to obey D-pad instead
+note: repeated selection causes dehighlight effect somehow.
+
+Want: importing files to cancel current selections
+Want: selecting a null to cause cancel
+Want: repeated selection to deselect
+UI mask layer
+Sort out control panel layout with dropdown
+Map beam selection not precise
+
+Fix: control panel blocker in the way, not wide enough
+Want: object dragging, rotation, manipulation
+Want: button to make group of objects "look" at you
+Want: fading ping/notification of relevant information
+e.g. loaded schema/mapping, failed to load, export successful

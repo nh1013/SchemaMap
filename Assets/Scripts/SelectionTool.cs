@@ -26,7 +26,7 @@ public class SelectionTool : MonoBehaviour
     }
 
     private void TriggerDown(object sender, ClickedEventArgs e) {
-        Debug.Log("Trigger down detected");
+        //Debug.Log("Trigger down detected");
         if (m_previewBeam) {
             Destroy(m_previewBeam.gameObject);
             m_previewBeam = null;
@@ -34,7 +34,7 @@ public class SelectionTool : MonoBehaviour
 
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, 100)) {
-            Debug.Log("Raycast hit item:" + hit.transform.name);
+            //Debug.Log("Raycast hit item:" + hit.transform.name);
             // parent of collider holds script and tag, collider is model of item
             m_startObject = hit.transform.parent;
             if (m_startObject == null) {
@@ -79,20 +79,19 @@ public class SelectionTool : MonoBehaviour
 
     private void TriggerUp(object sender, ClickedEventArgs e) {
         //Debug.Log("Trigger up detected");
-        if (!m_startObject) {
-            m_finishObject = null;
-            return;
-        }
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, 100)) {
             //Debug.Log("Raycast hit item:" + hit.transform.name);
             // parent of collider holds script and tag, collider is model of item
             m_finishObject = hit.transform.parent;
 
-            if (m_startObject == m_finishObject || m_startObject.tag == "MappingBeam") {
+            if (!m_startObject) {
+                // do nothing
+            }
+            else if (m_startObject == m_finishObject) {
                 controlPanel.Select(m_startObject);
             }
-            else if (m_finishObject == null) {
+            else if (!m_finishObject) {
                 // catch and ignore parent-less objects, should not exist in current setting
             }
             else if ( (m_startObject.tag == "SourceFieldCell" && m_finishObject.tag == "TargetFieldCell") ||

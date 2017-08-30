@@ -111,6 +111,7 @@ public class ControlPanel : MonoBehaviour
             Debug.Log("Error: received object that should not be highlighted: " + item.name);
             return;
         }
+
         Transform model = null;
         for (int i = item.childCount - 1; i >= 0; i--) {
             if (item.GetChild(i).name == "Model") {
@@ -122,10 +123,11 @@ public class ControlPanel : MonoBehaviour
             Debug.Log("Error: received object has no child named Model");
             return;
         }
-        if (model.childCount != 0) {
-            Debug.Log("Warning: received object already has children, presumed highlighter");
-            return;
-        }
+        // ignore existing children: Gameobject.destroy is not immediate
+        //if (model.childCount != 0) {
+        //    Debug.Log("Warning: received object already has children, presumed highlighter");
+        //    return;
+        //}
 
         // create selection outline object as a child of highlighted object
         GameObject outline = null;
@@ -168,7 +170,7 @@ public class ControlPanel : MonoBehaviour
             return;
         }
         if (model.childCount == 0) {
-            Debug.Log("Warning: received object has no children, presumed not highlighted");
+            Debug.Log("Warning: received object model has no children, presumed not highlighted");
         }
 
         for (int i = model.childCount - 1; i >= 0; i--) {
@@ -185,22 +187,40 @@ public class ControlPanel : MonoBehaviour
         DeHighlight(m_selectedSourceField);
         DeHighlight(m_selectedTargetField);
         DeHighlight(m_selectedMappingBeam);
-        if (item.gameObject.tag == "SourceFieldCell") {
-            m_selectedSourceField = item;
-            if (m_selectedTargetField) {
-                m_selectedMappingBeam = mapManager.FindBeam(m_selectedSourceField, m_selectedTargetField);
+        if (!item) {
+            m_selectedSourceField = null;
+            m_selectedTargetField = null;
+            m_selectedMappingBeam = null;
+        }
+        else if (item.gameObject.tag == "SourceFieldCell") {
+            if (m_selectedSourceField == item) {
+                m_selectedSourceField = null;
             }
+            else {
+                m_selectedSourceField = item;
+            }
+            m_selectedMappingBeam = mapManager.FindBeam(m_selectedSourceField, m_selectedTargetField);
         }
         else if (item.gameObject.tag == "TargetFieldCell") {
-            m_selectedTargetField = item;
-            if (m_selectedSourceField) {
-                m_selectedMappingBeam = mapManager.FindBeam(m_selectedSourceField, m_selectedTargetField);
+            if (m_selectedTargetField == item) {
+                m_selectedTargetField = null;
             }
+            else {
+                m_selectedTargetField = item;
+            }
+            m_selectedMappingBeam = mapManager.FindBeam(m_selectedSourceField, m_selectedTargetField);
         }
         else if (item.gameObject.tag == "MappingBeam") {
-            m_selectedMappingBeam = item;
-            m_selectedSourceField = m_selectedMappingBeam.GetComponent<MappingBeam>().m_SourceField;
-            m_selectedTargetField = m_selectedMappingBeam.GetComponent<MappingBeam>().m_TargetField;
+            if (m_selectedMappingBeam == item) {
+                m_selectedMappingBeam = null;
+                m_selectedSourceField = null;
+                m_selectedTargetField = null;
+            }
+            else {
+                m_selectedMappingBeam = item;
+                m_selectedSourceField = m_selectedMappingBeam.GetComponent<MappingBeam>().m_SourceField;
+                m_selectedTargetField = m_selectedMappingBeam.GetComponent<MappingBeam>().m_TargetField;
+            }
         }
         Highlight(m_selectedSourceField);
         Highlight(m_selectedTargetField);

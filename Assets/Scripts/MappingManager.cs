@@ -99,6 +99,12 @@ public class MappingManager : MonoBehaviour
     /// <param name="sourceField">Start node of beam to be found.</param>
     /// <param name="targetField">End node of beam to be found.</param>
     public Transform FindBeam(Transform sourceField, Transform targetField) {
+        if (!sourceField || !targetField) {
+            if (debugMode) {
+                Debug.Log("Parameters contain null references");
+            }
+            return null;
+        }
         string sourceName = sourceField.GetComponent<FieldCell>().m_fullName;
         string targetName = targetField.GetComponent<FieldCell>().m_fullName;
         foreach (Transform beam in m_BeamList) {

@@ -94,6 +94,7 @@
     <Compile Include="Assets\Scripts\MappingManager.cs" />
     <Compile Include="Assets\Scripts\SchemaManager.cs" />
     <Compile Include="Assets\Scripts\SelectionTool.cs" />
+    <Compile Include="Assets\Scripts\Point_Teleporter.cs" />
     <Compile Include="Assets\Scripts\TableManager.cs" />
     <Compile Include="Assets\Scripts\TriggerPhoto.cs" />
     <Compile Include="Assets\SteamVR\Extras\SteamVR_GazeTracker.cs" />
