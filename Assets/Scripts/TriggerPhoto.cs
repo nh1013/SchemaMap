@@ -19,7 +19,7 @@ public class TriggerPhoto : MonoBehaviour
             string path = "Screenshots/Screenshot.png";
             while (File.Exists(path)) {
                 count++;
-                path = "Mappings/matchResult" + count + ".txt";
+                path = "Screenshots/Screenshot" + count + ".png";
             }
             ScreenCapture.CaptureScreenshot(path);
         }

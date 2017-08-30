@@ -82,12 +82,15 @@ public class FileManager : MonoBehaviour {
         }
         // put list of fileNames onto control panel
         if (folder == "Schemas") {
+            controlPanel.m_sourceSchemaDropdown.value = 0;
+            controlPanel.m_targetSchemaDropdown.value = 0;
             controlPanel.m_sourceSchemaDropdown.ClearOptions();
             controlPanel.m_targetSchemaDropdown.ClearOptions();
             controlPanel.m_sourceSchemaDropdown.AddOptions(fileNames);
             controlPanel.m_targetSchemaDropdown.AddOptions(fileNames);
         }
         else if (folder == "Mappings") {
+            controlPanel.m_mappingDropdown.value = 0;
             controlPanel.m_mappingDropdown.ClearOptions();
             controlPanel.m_mappingDropdown.AddOptions(fileNames);
         }

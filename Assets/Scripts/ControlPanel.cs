@@ -127,7 +127,20 @@ public class ControlPanel : MonoBehaviour
             return;
         }
 
-        Transform outline = Instantiate(model, model);
+        // create selection outline object as a child of highlighted object
+        GameObject outline = null;
+        if (item.tag == "SourceFieldCell" || item.tag == "TargetFieldCell") {
+            outline = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            Destroy(outline.GetComponent<BoxCollider>());
+        }
+        else {
+            outline = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            Destroy(outline.GetComponent<CapsuleCollider>());
+        }
+        outline.transform.SetParent(model);
+        outline.transform.localScale = Vector3.one;
+        outline.transform.localPosition = Vector3.zero;
+        outline.transform.localRotation = Quaternion.identity;
         outline.GetComponent<MeshRenderer>().material = m_selection_AURA_MTL;
     }
     
@@ -159,7 +172,7 @@ public class ControlPanel : MonoBehaviour
         }
 
         for (int i = model.childCount - 1; i >= 0; i--) {
-            Destroy(model.GetChild(i));
+            Destroy(model.GetChild(i).gameObject);
         }
     }
 
@@ -174,11 +187,15 @@ public class ControlPanel : MonoBehaviour
         DeHighlight(m_selectedMappingBeam);
         if (item.gameObject.tag == "SourceFieldCell") {
             m_selectedSourceField = item;
-            m_selectedMappingBeam = mapManager.FindBeam(m_selectedSourceField, m_selectedTargetField);
+            if (m_selectedTargetField) {
+                m_selectedMappingBeam = mapManager.FindBeam(m_selectedSourceField, m_selectedTargetField);
+            }
         }
         else if (item.gameObject.tag == "TargetFieldCell") {
             m_selectedTargetField = item;
-            m_selectedMappingBeam = mapManager.FindBeam(m_selectedSourceField, m_selectedTargetField);
+            if (m_selectedSourceField) {
+                m_selectedMappingBeam = mapManager.FindBeam(m_selectedSourceField, m_selectedTargetField);
+            }
         }
         else if (item.gameObject.tag == "MappingBeam") {
             m_selectedMappingBeam = item;

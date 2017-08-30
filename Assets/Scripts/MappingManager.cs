@@ -134,7 +134,7 @@ public class MappingManager : MonoBehaviour
     public bool RemoveBeam(Transform sourceField, Transform targetField) {
         Transform beam = FindBeam(sourceField, targetField);
         if (beam != null) {
-            Destroy(beam);
+            Destroy(beam.gameObject);
             return true;
         }
         // no matches
@@ -154,7 +154,7 @@ public class MappingManager : MonoBehaviour
         }
         // remove this beam from the list
         m_BeamList.Remove(beam);
-        Destroy(beam);
+        Destroy(beam.gameObject);
         return true;
     }
     
