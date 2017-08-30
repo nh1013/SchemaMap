@@ -27,6 +27,7 @@ public class ControlPanel : MonoBehaviour
     public Button m_deleteButton;
 
     // selected items
+    public Material m_selection_AURA_MTL;
     private Transform m_selectedSourceField;
     private Transform m_selectedTargetField;
     private Transform m_selectedMappingBeam;
@@ -99,12 +100,78 @@ public class ControlPanel : MonoBehaviour
 
     // edit menu functions
     /// <summary>
+    /// Generate a highlight outline for the field cell or mapping beam
+    /// </summary>
+    /// <param name="item">The object being highlighted.</param>
+    public void Highlight(Transform item) {
+        if (item == null) {
+            return;
+        }
+        if (item.tag != "SourceFieldCell" && item.tag != "TargetFieldCell" && item.tag != "MappingBeam") {
+            Debug.Log("Error: received object that should not be highlighted: " + item.name);
+            return;
+        }
+        Transform model = null;
+        for (int i = item.childCount - 1; i >= 0; i--) {
+            if (item.GetChild(i).name == "Model") {
+                model = item.GetChild(i);
+                break;
+            }
+        }
+        if (model == null) {
+            Debug.Log("Error: received object has no child named Model");
+            return;
+        }
+        if (model.childCount != 0) {
+            Debug.Log("Warning: received object already has children, presumed highlighter");
+            return;
+        }
+
+        Transform outline = Instantiate(model, model);
+        outline.GetComponent<MeshRenderer>().material = m_selection_AURA_MTL;
+    }
+    
+    /// <summary>
+    /// Find and delete the highlight outline for the field cell or mapping beam
+    /// </summary>
+    /// <param name="item">The object being de-highlighted.</param>
+    public void DeHighlight(Transform item) {
+        if (item == null) {
+            return;
+        }
+        if (item.gameObject.tag != "SourceFieldCell" && item.gameObject.tag != "TargetFieldCell" && item.gameObject.tag != "MappingBeam") {
+            Debug.Log("Error: received object that should not be de-highlighted: " + item.name);
+            return;
+        }
+        Transform model = null;
+        for (int i = item.childCount - 1; i >= 0; i--) {
+            if (item.GetChild(i).name == "Model") {
+                model = item.GetChild(i);
+                break;
+            }
+        }
+        if (model == null) {
+            Debug.Log("Error: received object has no child named Model");
+            return;
+        }
+        if (model.childCount == 0) {
+            Debug.Log("Warning: received object has no children, presumed not highlighted");
+        }
+
+        for (int i = model.childCount - 1; i >= 0; i--) {
+            Destroy(model.GetChild(i));
+        }
+    }
+
+    /// <summary>
     /// Sort the selected item into its slot, 
     /// and add/remove others as suitable
     /// </summary>
     /// <param name="item">The object being selected.</param>
     public void Select(Transform item) {
-        // [shader] unshade m_selectedSourceField, m_selectedTargetField, and m_selectedMappingBeam
+        DeHighlight(m_selectedSourceField);
+        DeHighlight(m_selectedTargetField);
+        DeHighlight(m_selectedMappingBeam);
         if (item.gameObject.tag == "SourceFieldCell") {
             m_selectedSourceField = item;
             m_selectedMappingBeam = mapManager.FindBeam(m_selectedSourceField, m_selectedTargetField);
@@ -118,7 +185,51 @@ public class ControlPanel : MonoBehaviour
             m_selectedSourceField = m_selectedMappingBeam.GetComponent<MappingBeam>().m_SourceField;
             m_selectedTargetField = m_selectedMappingBeam.GetComponent<MappingBeam>().m_TargetField;
         }
-        // [shader] shade m_selectedSourceField, m_selectedTargetField, and m_selectedMappingBeam
+        Highlight(m_selectedSourceField);
+        Highlight(m_selectedTargetField);
+        Highlight(m_selectedMappingBeam);
+        UpdateEditMenu();
+    }
+
+    /// <summary>
+    /// De-select the item, if applicable
+    /// </summary>
+    /// <param name="item">The object being de-selected.</param>
+    public void DeSelect(Transform item) {
+        DeHighlight(m_selectedSourceField);
+        DeHighlight(m_selectedTargetField);
+        DeHighlight(m_selectedMappingBeam);
+        if (item.gameObject.tag == "SourceFieldCell") {
+            if (m_selectedSourceField != item) {
+                Debug.Log("Error: attempted to deselect something not selected");
+            }
+            else {
+                m_selectedSourceField = null;
+                m_selectedMappingBeam = null;
+            }
+        }
+        else if (item.gameObject.tag == "TargetFieldCell") {
+            if (m_selectedTargetField != item) {
+                Debug.Log("Error: attempted to deselect something not selected");
+            }
+            else {
+                m_selectedTargetField = null;
+                m_selectedMappingBeam = null;
+            }
+        }
+        else if (item.gameObject.tag == "MappingBeam") {
+            if (m_selectedMappingBeam != item) {
+                Debug.Log("Error: attempted to deselect something not selected");
+            }
+            else {
+                m_selectedSourceField = null;
+                m_selectedTargetField = null;
+                m_selectedMappingBeam = null;
+            }
+        }
+        Highlight(m_selectedSourceField);
+        Highlight(m_selectedTargetField);
+        Highlight(m_selectedMappingBeam);
         UpdateEditMenu();
     }
 

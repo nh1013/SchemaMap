@@ -235,7 +235,7 @@ public class FileManager : MonoBehaviour {
     public void ExportMapping() {
         // find unused filename
         int count = 0;
-        string path = "Mappings/mathResult" + count + ".txt";
+        string path = "Mappings/matchResult.txt";
         while (File.Exists(path)) {
             count++;
             path = "Mappings/matchResult" + count + ".txt";
