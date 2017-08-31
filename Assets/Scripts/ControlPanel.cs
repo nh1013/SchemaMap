@@ -32,6 +32,18 @@ public class ControlPanel : MonoBehaviour
     private Transform m_selectedTargetField;
     private Transform m_selectedMappingBeam;
 
+    public Transform SelectedSourceField {
+        get {
+            return m_selectedSourceField;
+        }
+    }
+
+    public Transform SelectedTargetField {
+        get {
+            return m_selectedTargetField;
+        }
+    }
+
     // Use this for initialization
     void Start() {
         ShowMenu(m_mainMenu);
@@ -179,8 +191,7 @@ public class ControlPanel : MonoBehaviour
     }
 
     /// <summary>
-    /// Sort the selected item into its slot, 
-    /// and add/remove others as suitable
+    /// Select/unselect the item, and add/remove others as suitable
     /// </summary>
     /// <param name="item">The object being selected.</param>
     public void Select(Transform item) {

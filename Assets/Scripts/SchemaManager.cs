@@ -19,9 +19,10 @@ public class SchemaManager : MonoBehaviour
     public string m_databaseName = "";
     private float m_spacing = 0.5f;
     private float m_bottomSpace = 0;
+    private float m_backShift = 0;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 		
 	}
 
@@ -50,6 +51,7 @@ public class SchemaManager : MonoBehaviour
         m_tableList.Clear();
         m_schemaName = "";
         m_bottomSpace = 0;
+        m_backShift = 0;
     }
 
     /// <summary>
@@ -62,10 +64,14 @@ public class SchemaManager : MonoBehaviour
         if (m_isSource) {
             table.GetComponent<TableManager>().FieldCellPrefab = SourceFieldCellPrefab;
         }
-        table.localPosition = new Vector3(0.0f, m_bottomSpace, 0.0f);
         table.GetComponent<TableManager>().SetName(name);
         table.GetComponent<TableManager>().SetFields(fields);
         m_tableList.Add(table);
+        if (table.position.y - table.GetComponent<TableManager>().GetHeight() < 0) {
+            m_bottomSpace = 0;
+            m_backShift -= 0.5f;
+        }
+        table.localPosition = new Vector3(0.0f, m_bottomSpace, m_backShift);
         m_bottomSpace -= table.GetComponent<TableManager>().GetHeight() + m_spacing;
     }
 }

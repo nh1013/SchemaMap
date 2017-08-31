@@ -24,8 +24,8 @@ public class FileManager : MonoBehaviour {
     public MappingManager MapManager;
 
     public bool debugMode = false;
-    private string m_sourceAddress;
-    private string m_targetAddress;
+    //private string m_sourceAddress;
+    //private string m_targetAddress;
 
     // Use this for initialization
     void Start () {
@@ -183,8 +183,10 @@ public class FileManager : MonoBehaviour {
         MapManager.ClearBeams();
         StreamReader sr = new StreamReader(path);
         sr.ReadLine(); // discard first line
-        m_sourceAddress = sr.ReadLine();
-        m_targetAddress = sr.ReadLine();
+        //m_sourceAddress = sr.ReadLine();
+        //m_targetAddress = sr.ReadLine();
+        sr.ReadLine(); // discard address line
+        sr.ReadLine(); // discard address line
         sr.ReadLine(); // discard divider
 
         while (sr.Peek() > -1) {
@@ -194,6 +196,9 @@ public class FileManager : MonoBehaviour {
             }
             if (line.StartsWith(@" + ")) {
                 break;
+            }
+            if (!line.StartsWith(@" - ")) {
+                continue;
             }
             // input format: - [table].[field] <-> [table].[field]: [confidence]
             // 2nd field may not exist - interpreted as empty strings

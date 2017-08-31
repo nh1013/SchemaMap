@@ -41,21 +41,15 @@ public class MappingBeam : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-    Vector3 sourceNode = new Vector3(
-        m_SourceBox.position.x + 0.5f * m_SourceBox.lossyScale.x,
-        m_SourceBox.position.y,
-        m_SourceBox.position.z);
-    Vector3 targetNode = new Vector3(
-        m_TargetBox.position.x - 0.5f * m_TargetBox.lossyScale.x,
-        m_TargetBox.position.y,
-        m_TargetBox.position.z);
-    // update beam position, orientation, and size (scale)
-    transform.position = Vector3.Lerp(sourceNode, targetNode, 0.5f);
-    transform.LookAt(targetNode);
-    transform.localScale = new Vector3(
-        transform.localScale.x, 
-        transform.localScale.y,
-        Vector3.Distance(sourceNode, targetNode)
-    );
+        Vector3 sourceNode = m_SourceBox.position + 0.5f * m_SourceBox.right * m_SourceBox.lossyScale.x;
+        Vector3 targetNode = m_TargetBox.position - 0.5f * m_TargetBox.right * m_TargetBox.lossyScale.x;
+        // update beam position, orientation, and size (scale)
+        transform.position = Vector3.Lerp(sourceNode, targetNode, 0.5f);
+        transform.LookAt(targetNode);
+        transform.localScale = new Vector3(
+            transform.localScale.x, 
+            transform.localScale.y,
+            Vector3.Distance(sourceNode, targetNode)
+        );
     }
 }

@@ -43,18 +43,10 @@ public class SelectionTool : MonoBehaviour
             }
             switch (m_startObject.tag) {
                 case "SourceFieldCell":
-                    m_startNode = new Vector3(
-                        hit.transform.position.x + 0.5f * hit.transform.lossyScale.x,
-                        hit.transform.position.y,
-                        hit.transform.position.z
-                    );
+                    m_startNode = hit.transform.position + 0.5f * hit.transform.right * hit.transform.lossyScale.x;
                     break;
                 case "TargetFieldCell":
-                    m_startNode = new Vector3(
-                        hit.transform.position.x - 0.5f * hit.transform.lossyScale.x,
-                        hit.transform.position.y,
-                        hit.transform.position.z
-                    );
+                    m_startNode = hit.transform.position - 0.5f * hit.transform.right * hit.transform.lossyScale.x;
                     break;
                 case "MappingBeam":
                     return;
@@ -133,18 +125,10 @@ public class SelectionTool : MonoBehaviour
                 endPos = hit.point;
             }
             else if (m_startObject.tag == "SourceFieldCell" && targetModel.parent.tag == "TargetFieldCell") {
-                endPos = new Vector3(
-                    targetModel.position.x - 0.5f * targetModel.lossyScale.x,
-                    targetModel.position.y,
-                    targetModel.position.z
-                );
+                endPos = targetModel.position - 0.5f * targetModel.right * targetModel.lossyScale.x;
             }
             else if (m_startObject.tag == "TargetFieldCell" && targetModel.parent.tag == "SourceFieldCell") {
-                endPos = new Vector3(
-                    targetModel.position.x + 0.5f * targetModel.lossyScale.x,
-                    targetModel.position.y,
-                    targetModel.position.z
-                );
+                endPos = targetModel.position + 0.5f * targetModel.right * targetModel.lossyScale.x;
             }
             else {
                 endPos = hit.point;

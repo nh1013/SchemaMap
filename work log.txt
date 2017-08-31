@@ -17,7 +17,25 @@ Sort out control panel layout with dropdown
 Map beam selection not precise
 
 Fix: control panel blocker in the way, not wide enough
+----- August 30th end -----
+
 Want: object dragging, rotation, manipulation
 Want: button to make group of objects "look" at you
+
+mapping beam position does not account for orientation
+Lookat rotation for model manipulator, lock down y-axis
+Rotate tables to look forward
+
+Model manipulator movement is clunky and annoying, set to fixed distance from cursor
+
+Model manipulator movement is still clunky and annoying, set to fixed distance and 
+relative to controller rotation
+Have moving objects look at camera/head instead?
+
+Fixed model manipulator movement: angle not properly adjusted for camera, controller, table
+
 Want: fading ping/notification of relevant information
 e.g. loaded schema/mapping, failed to load, export successful
+Want: tables to not be spawned too high or low, preventing vision
+
+want: table movement to emphasise forward/backward movement
