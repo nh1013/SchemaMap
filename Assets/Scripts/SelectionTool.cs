@@ -27,6 +27,7 @@ public class SelectionTool : MonoBehaviour
 
     private void TriggerDown(object sender, ClickedEventArgs e) {
         //Debug.Log("Trigger down detected");
+        m_startObject = null;
         if (m_previewBeam) {
             Destroy(m_previewBeam.gameObject);
             m_previewBeam = null;
@@ -65,7 +66,6 @@ public class SelectionTool : MonoBehaviour
                 m_previewBeam.localScale.y,
                 Vector3.Distance(m_startNode, hit.point)
             );
-            return;
         }
     }
 
@@ -77,14 +77,11 @@ public class SelectionTool : MonoBehaviour
             // parent of collider holds script and tag, collider is model of item
             m_finishObject = hit.transform.parent;
 
-            if (!m_startObject) {
-                // do nothing
+            if (!m_startObject || !m_finishObject) {
+                controlPanel.Select(null);
             }
             else if (m_startObject == m_finishObject) {
                 controlPanel.Select(m_startObject);
-            }
-            else if (!m_finishObject) {
-                // catch and ignore parent-less objects, should not exist in current setting
             }
             else if ( (m_startObject.tag == "SourceFieldCell" && m_finishObject.tag == "TargetFieldCell") ||
                       (m_startObject.tag == "TargetFieldCell" && m_finishObject.tag == "SourceFieldCell") ) {
@@ -92,6 +89,9 @@ public class SelectionTool : MonoBehaviour
                 controlPanel.Select(m_finishObject);
                 controlPanel.LinkFields();
             }
+        }
+        else {
+            controlPanel.Select(null);
         }
         m_startObject = null;
         m_finishObject = null;

@@ -93,6 +93,8 @@
     <Compile Include="Assets\Scripts\MappingBeam.cs" />
     <Compile Include="Assets\Scripts\MappingManager.cs" />
     <Compile Include="Assets\Scripts\ModelManipulator.cs" />
+    <Compile Include="Assets\Scripts\Popup.cs" />
+    <Compile Include="Assets\Scripts\PopupSystem.cs" />
     <Compile Include="Assets\Scripts\SchemaManager.cs" />
     <Compile Include="Assets\Scripts\SelectionTool.cs" />
     <Compile Include="Assets\Scripts\Point_Teleporter.cs" />

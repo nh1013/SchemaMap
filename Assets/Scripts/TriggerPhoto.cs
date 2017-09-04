@@ -4,21 +4,14 @@ using System.IO;
 
 public class TriggerPhoto : MonoBehaviour
 {
-    private SteamVR_TrackedController trackedObj;
-
-    private bool m_canTake = true; // primitive semaphore
+    private SteamVR_TrackedController m_trackedController;
 
     void Awake() {
-        trackedObj = GetComponent<SteamVR_TrackedController>();
-        m_canTake = true;
+        m_trackedController = GetComponent<SteamVR_TrackedController>();
+        m_trackedController.TriggerClicked += new ClickedEventHandler(TakeScreenshot);
     }
 
-    private void TakeScreenshot() {
-        if (!m_canTake) {
-            return;
-        }
-
-        m_canTake = false;
+    private void TakeScreenshot(object sender, ClickedEventArgs e) {
         // find unused filename
         int count = 0;
         string path = "Screenshots/Screenshot.png";
@@ -27,16 +20,5 @@ public class TriggerPhoto : MonoBehaviour
             path = "Screenshots/Screenshot" + count + ".png";
         }
         ScreenCapture.CaptureScreenshot(path);
-
-        new WaitForSeconds(1);
-        m_canTake = true;
-    }
-
-    // Update is called once per frame
-    void Update() {
-        // take a screenshot when the controller's trigger is pressed
-        if (trackedObj.triggerPressed) {
-            TakeScreenshot();
-        }
     }
 }

@@ -22,6 +22,7 @@ public class FileManager : MonoBehaviour {
     public SchemaManager SourceManager;
     public SchemaManager TargetManager;
     public MappingManager MapManager;
+    public PopupSystem popup;
 
     public bool debugMode = false;
     //private string m_sourceAddress;
@@ -165,6 +166,7 @@ public class FileManager : MonoBehaviour {
         if (schemaManager.m_databaseName.Length == 0) {
             Debug.Log("Note: Database name not found for: " + path);
         }
+        popup.DisplayMessage("Schema imported!");
         sr.Close();
     }
 
@@ -224,6 +226,7 @@ public class FileManager : MonoBehaviour {
                 break;
             }
         }
+        popup.DisplayMessage("Mapping imported!");
         sr.Close();
     }
 
@@ -255,6 +258,7 @@ public class FileManager : MonoBehaviour {
         }
         sw.WriteLine(" + Total: " + MapManager.m_BeamList.Count + " correspondences");
         sw.WriteLine("--------------------------------------------------------");
+        popup.DisplayMessage("Mapping exported!");
         sw.Close();
         RefreshFiles("Mappings");
     }

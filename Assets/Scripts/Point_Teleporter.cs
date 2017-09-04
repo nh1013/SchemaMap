@@ -6,8 +6,6 @@
 
 // IMPORTANT: this script is modified from Valve's SteamVR plugin, 
 // SteamVR_Teleporter.cs, located in SteamVR/Extras
-// The only modification is on the input registration, which is changed to 
-// teleport with clicking the pad instead of clicking the trigger
 
 using UnityEngine;
 using System.Collections;
@@ -21,7 +19,12 @@ public class Point_Teleporter : MonoBehaviour
 		TeleportTypeUseZeroY
 	}
 
-	public bool teleportOnPadUnclick = false;
+    public ModelManipulator m_modelManipulator;
+    public GameObject ReticlePrefab;
+    private GameObject m_reticle;
+    private SteamVR_TrackedController m_trackedController;
+
+    public bool teleportOnPadUnclick = false;
 	public TeleportType teleportType = TeleportType.TeleportTypeUseZeroY;
 
 	Transform reference
@@ -35,13 +38,13 @@ public class Point_Teleporter : MonoBehaviour
 
 	void Start()
 	{
-		var trackedController = GetComponent<SteamVR_TrackedController>();
-		if (trackedController == null)
+		m_trackedController = GetComponent<SteamVR_TrackedController>();
+		if (m_trackedController == null)
 		{
-			trackedController = gameObject.AddComponent<SteamVR_TrackedController>();
+            m_trackedController = gameObject.AddComponent<SteamVR_TrackedController>();
 		}
-        
-        trackedController.PadUnclicked += new ClickedEventHandler(DoPadUnclick); // modified
+
+        m_trackedController.PadUnclicked += new ClickedEventHandler(DoPadUnclick);
 
         if (teleportType == TeleportType.TeleportTypeUseTerrain)
 		{
@@ -49,11 +52,18 @@ public class Point_Teleporter : MonoBehaviour
 			var t = reference;
 			if (t != null)
 				t.position = new Vector3(t.position.x, Terrain.activeTerrain.SampleHeight(t.position), t.position.z);
-		}
-	}
+        }
+
+        m_reticle = Instantiate(ReticlePrefab);
+        m_reticle.SetActive(false);
+    }
 
 	void DoPadUnclick(object sender, ClickedEventArgs e)
 	{
+        if (m_modelManipulator.m_manipulationMode) {
+            return;
+        }
+
 		if (teleportOnPadUnclick)
 		{
 			// First get the current Transform of the the reference space (i.e. the Play Area, e.g. CameraRig prefab)
@@ -105,5 +115,22 @@ public class Point_Teleporter : MonoBehaviour
 			}
 		}
 	}
+
+    private void Update() {
+        m_reticle.SetActive(false);
+        if (m_modelManipulator.m_manipulationMode) {
+            return;
+        }
+
+        if (m_trackedController.padPressed) {
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, transform.forward, out hit, 100)) {
+                if (hit.transform.tag == "Floor") {
+                    m_reticle.SetActive(true);
+                    m_reticle.transform.position = new Vector3(hit.point.x, 0.01f, hit.point.z);
+                }
+            }
+        }
+    }
 }
 

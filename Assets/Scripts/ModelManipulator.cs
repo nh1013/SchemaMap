@@ -11,24 +11,22 @@ public class ModelManipulator : MonoBehaviour {
     public Transform m_camera;
     public Transform m_controller;
     private SteamVR_TrackedController m_trackedController;
+    private int m_controllerIndex = -1;
+    private SteamVR_Controller.Device m_controllerDevice;
 
-    public Transform m_sourceTable;
-    public Transform m_targetTable;
+    private Transform m_sourceTable;
+    private Transform m_targetTable;
 
     public Transform m_transformHost;
     public Transform m_sourceFake;
     public Transform m_targetFake;
     
-    private Vector3 m_startingSourcePos;
-    private Vector3 m_startingTargetPos;
     private Vector3 m_startingControllerPos;
-    private Vector3 m_startingControllerForward;
-    private Vector3 m_startingHostPos;
     private Quaternion m_hostControllerAngle;
-    private float m_startingDistance;
+    private float m_modelDistance;
 
     public float m_moveScale = 5.0f;
-    private bool m_manipulationMode;
+    public bool m_manipulationMode;
 
     // Use this for initialization
     void Start () {
@@ -38,13 +36,13 @@ public class ModelManipulator : MonoBehaviour {
             Debug.Log("ERROR: Missing controller reference in ModelManipulator!");
 
         if (!m_trackedController)
-            Debug.Log("ERROR: Couldn't retrieve vrTracked_controller components. Make sure they're attached to both controllers");
+            Debug.Log("ERROR: Couldn't retrieve vrTracked_controller components.");
 
         if(m_trackedController) {
             m_trackedController.Gripped += new ClickedEventHandler(ControllerGrip);
             m_trackedController.Ungripped += new ClickedEventHandler(ControllerUngrip);
         }
-
+        m_controllerIndex = (int) m_controller.GetComponent<SteamVR_TrackedObject>().index;
     }
 
     private void ControllerGrip(object sender, ClickedEventArgs e) {
@@ -54,11 +52,17 @@ public class ModelManipulator : MonoBehaviour {
         else {
             m_sourceTable = null;
         }
+
         if (controlPanel.SelectedTargetField) {
             m_targetTable = controlPanel.SelectedTargetField.parent;
         }
         else {
             m_targetTable = null;
+        }
+
+        if (m_controllerIndex == -1) {
+            m_controllerIndex = (int)m_controller.GetComponent<SteamVR_TrackedObject>().index;
+            m_controllerDevice = SteamVR_Controller.Input(m_controllerIndex);
         }
         SetGrip(true);
     }
@@ -76,11 +80,11 @@ public class ModelManipulator : MonoBehaviour {
         // else, gripped == true
         m_manipulationMode = true;
         m_startingControllerPos = m_controller.position;
-        m_startingControllerForward = m_controller.forward;
 
         if (m_sourceTable && m_targetTable) {
             // when two tables selected, use transform host to handle uniform position and rotate
             m_transformHost.position = Vector3.Lerp(m_sourceTable.position, m_targetTable.position, 0.5f);
+            m_transformHost.rotation = Quaternion.LookRotation(Vector3.Cross(m_targetTable.position - m_sourceTable.position, Vector3.down));
             m_sourceFake.position = m_sourceTable.position;
             m_targetFake.position = m_targetTable.position;
         }
@@ -103,7 +107,7 @@ public class ModelManipulator : MonoBehaviour {
             m_transformHost.position.y,
             m_camera.position.z
         ));
-        m_startingDistance = Vector3.Distance(m_transformHost.position, m_startingControllerPos);
+        m_modelDistance = Vector3.Distance(m_transformHost.position, m_startingControllerPos);
         m_hostControllerAngle.SetFromToRotation(m_controller.forward, m_transformHost.position - m_startingControllerPos);
     }
     
@@ -119,12 +123,17 @@ public class ModelManipulator : MonoBehaviour {
             return;
         }
 
+        if (m_trackedController.padPressed){
+            if (m_controllerDevice.GetAxis().y > 0) {
+                m_modelDistance += 0.1f;
+            }
+            else {
+                m_modelDistance -= 0.1f;
+            }
+        }
+
         // move transform host to same distance against controller, same angle as initial selection
-        //float angle = Vector3.Angle(m_startingControllerForward, m_controller.position - m_startingControllerPos);
-        //float movePercentage = 1f - 0.01f * (m_startingDistance - Vector3.Distance(m_startingControllerPos, m_controller.position));
-        //m_transformHost.position = m_controller.position +
-        //    m_hostControllerAngle * m_controller.forward * (m_startingDistance - Mathf.Cos(angle * Mathf.Deg2Rad) * m_startingDistance);
-        m_transformHost.position = m_controller.position + m_hostControllerAngle * m_controller.forward * m_startingDistance;
+        m_transformHost.position = m_controller.position + m_hostControllerAngle * m_controller.forward * m_modelDistance;
         // look at controller without leaning
         m_transformHost.LookAt(new Vector3(
             m_camera.position.x,

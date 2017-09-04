@@ -39,3 +39,12 @@ e.g. loaded schema/mapping, failed to load, export successful
 Want: tables to not be spawned too high or low, preventing vision
 
 want: table movement to emphasise forward/backward movement
+
+----- September 4th start -----
+Make own teleporter, using the Vive tutorial
+Notification system
+
+
+Remove popup prefab of traces of original source field prefab
+Make it actually transparant
+
