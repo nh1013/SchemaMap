@@ -8,6 +8,7 @@ public class ControlPanel : MonoBehaviour
 {
     public FileManager fileManager;
     public MappingManager mapManager;
+    public PopupSystem popupSys;
 
     // menus
     public Transform m_mainMenu;
@@ -73,6 +74,7 @@ public class ControlPanel : MonoBehaviour
     public void ImportSource() {
         string selection = m_sourceSchemaDropdown.captionText.text;
         if (selection == "Select schema") {
+            popupSys.DisplayMessage("No database selected");
             Debug.Log("No database selected");
             return;
         }
@@ -85,6 +87,7 @@ public class ControlPanel : MonoBehaviour
     public void ImportTarget() {
         string selection = m_targetSchemaDropdown.captionText.text;
         if (selection == "Select schema") {
+            popupSys.DisplayMessage("No database selected");
             Debug.Log("No database selected");
             return;
         }
@@ -97,7 +100,8 @@ public class ControlPanel : MonoBehaviour
     public void ImportMapping() {
         string selection = m_mappingDropdown.captionText.text;
         if (selection == "Select mapping") {
-            Debug.Log("No database selected");
+            popupSys.DisplayMessage("No file selected");
+            Debug.Log("No file selected");
             return;
         }
         fileManager.ImportMapping(selection);
@@ -203,36 +207,41 @@ public class ControlPanel : MonoBehaviour
             m_selectedTargetField = null;
             m_selectedMappingBeam = null;
         }
-        else if (item.gameObject.tag == "SourceFieldCell") {
-            if (m_selectedSourceField == item) {
-                m_selectedSourceField = null;
+        else {
+            switch (item.gameObject.tag) {
+                case "SourceFieldCell":
+                    if (m_selectedSourceField == item) {
+                        m_selectedSourceField = null;
+                    }
+                    else {
+                        m_selectedSourceField = item;
+                    }
+                    m_selectedMappingBeam = mapManager.FindBeam(m_selectedSourceField, m_selectedTargetField);
+                    break;
+                case "TargetFieldCell":
+                    if (m_selectedTargetField == item) {
+                        m_selectedTargetField = null;
+                    }
+                    else {
+                        m_selectedTargetField = item;
+                    }
+                    m_selectedMappingBeam = mapManager.FindBeam(m_selectedSourceField, m_selectedTargetField);
+                    break;
+                case "MappingBeam":
+                    if (m_selectedMappingBeam == item) {
+                        m_selectedMappingBeam = null;
+                        m_selectedSourceField = null;
+                        m_selectedTargetField = null;
+                    }
+                    else {
+                        m_selectedMappingBeam = item;
+                        m_selectedSourceField = m_selectedMappingBeam.GetComponent<MappingBeam>().m_SourceField;
+                        m_selectedTargetField = m_selectedMappingBeam.GetComponent<MappingBeam>().m_TargetField;
+                    }
+                    break;
             }
-            else {
-                m_selectedSourceField = item;
-            }
-            m_selectedMappingBeam = mapManager.FindBeam(m_selectedSourceField, m_selectedTargetField);
         }
-        else if (item.gameObject.tag == "TargetFieldCell") {
-            if (m_selectedTargetField == item) {
-                m_selectedTargetField = null;
-            }
-            else {
-                m_selectedTargetField = item;
-            }
-            m_selectedMappingBeam = mapManager.FindBeam(m_selectedSourceField, m_selectedTargetField);
-        }
-        else if (item.gameObject.tag == "MappingBeam") {
-            if (m_selectedMappingBeam == item) {
-                m_selectedMappingBeam = null;
-                m_selectedSourceField = null;
-                m_selectedTargetField = null;
-            }
-            else {
-                m_selectedMappingBeam = item;
-                m_selectedSourceField = m_selectedMappingBeam.GetComponent<MappingBeam>().m_SourceField;
-                m_selectedTargetField = m_selectedMappingBeam.GetComponent<MappingBeam>().m_TargetField;
-            }
-        }
+
         Highlight(m_selectedSourceField);
         Highlight(m_selectedTargetField);
         Highlight(m_selectedMappingBeam);
@@ -240,7 +249,7 @@ public class ControlPanel : MonoBehaviour
     }
 
     /// <summary>
-    /// De-select the item, if applicable
+    /// [deprecated] De-select the item, if applicable
     /// </summary>
     /// <param name="item">The object being de-selected.</param>
     public void DeSelect(Transform item) {

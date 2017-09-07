@@ -4,6 +4,8 @@ using System.IO;
 
 public class TriggerPhoto : MonoBehaviour
 {
+    public PopupSystem popupSys;
+
     private SteamVR_TrackedController m_trackedController;
 
     void Awake() {
@@ -20,5 +22,6 @@ public class TriggerPhoto : MonoBehaviour
             path = "Screenshots/Screenshot" + count + ".png";
         }
         ScreenCapture.CaptureScreenshot(path);
+        popupSys.DisplayMessage("Screenshot taken! " + path);
     }
 }

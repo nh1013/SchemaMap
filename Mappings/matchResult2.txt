@@ -1,0 +1,9 @@
+MatchResult [5,4]
+Schemas/personCarCity-source.sql
+Schemas/personCarCity-target.sql
+--------------------------------------------------------
+ - cityRegion <-> city: 1.00
+ - cityRegion.cityName <-> city.name: 1.00
+ - cityRegion.region <-> car.id: 1.00
+ + Total: 3 correspondences
+--------------------------------------------------------

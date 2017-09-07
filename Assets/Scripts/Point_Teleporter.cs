@@ -20,8 +20,8 @@ public class Point_Teleporter : MonoBehaviour
 	}
 
     public ModelManipulator m_modelManipulator;
-    public GameObject ReticlePrefab;
-    private GameObject m_reticle;
+    //public GameObject ReticlePrefab;
+    public GameObject m_reticle;
     private SteamVR_TrackedController m_trackedController;
 
     public bool teleportOnPadUnclick = false;
@@ -54,7 +54,7 @@ public class Point_Teleporter : MonoBehaviour
 				t.position = new Vector3(t.position.x, Terrain.activeTerrain.SampleHeight(t.position), t.position.z);
         }
 
-        m_reticle = Instantiate(ReticlePrefab);
+        //m_reticle = Instantiate(ReticlePrefab);
         m_reticle.SetActive(false);
     }
 

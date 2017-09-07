@@ -52,7 +52,6 @@ public class SelectionTool : MonoBehaviour
                 case "MappingBeam":
                     return;
                 default:
-                    m_startObject = null;
                     return;
             }
 

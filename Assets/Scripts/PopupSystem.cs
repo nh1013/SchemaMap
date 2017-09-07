@@ -10,7 +10,7 @@ public class PopupSystem : MonoBehaviour
     
     public void DisplayMessage(string msg) {
         Transform popup = Instantiate(PopupPrefab, transform);
-        popup.position = m_camera.position + 0.5f * m_camera.forward - 0.3f * m_camera.up + 0.3f * m_camera.right;
+        popup.position = m_camera.position + 0.8f * m_camera.forward - 0.3f * m_camera.up + 0.3f * m_camera.right;
         popup.LookAt(new Vector3(
             m_camera.position.x,
             popup.position.y,

@@ -32,7 +32,7 @@ public class MappingBeam : MonoBehaviour
             m_beamMesh.GetComponent<Renderer>().material.color = new Color(0, 0, 0);
         }
         else if (m_confidence >= 0.7) {
-            m_beamMesh.GetComponent<Renderer>().material.color = new Color(3.333f * m_confidence - 2.333f, 1, 0);
+            m_beamMesh.GetComponent<Renderer>().material.color = new Color(-3.333f * m_confidence + 3.333f, 1, 0);
         }
         else {
             m_beamMesh.GetComponent<Renderer>().material.color = new Color(1, 1.428f * m_confidence, 0);

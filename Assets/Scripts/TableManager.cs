@@ -12,30 +12,12 @@ public class TableManager : MonoBehaviour
     public Transform m_titleCell;       // Transform of field cell with the title
 
     public bool debugMode = false;
-    
-    // Use this for initialization
-    void Start() {
-
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public void Select() {
-        // turn on selection in Model Manipulator
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public void UnSelect() {
-        // turn off selection in Model Manipulator
-    }
 
     /// <summary>
     /// Get the lossy scale height of the table
     /// </summary>
     public float GetHeight() {
+        // one extra count to account for title cell
         return (m_fields.Count + 1) * FieldCellPrefab.GetComponent<FieldCell>().GetHeight();
     }
 
@@ -46,6 +28,7 @@ public class TableManager : MonoBehaviour
     public void SetName(string name) {
         m_titleCell = Instantiate(FieldCellPrefab, transform);
         transform.name = name;
+        m_titleCell.name = name;
         m_titleCell.GetComponent<FieldCell>().m_fieldName.text = name;
         m_titleCell.GetComponent<FieldCell>().m_fieldType.text = "";
         m_titleCell.GetComponent<FieldCell>().m_fullName = name;
@@ -71,10 +54,5 @@ public class TableManager : MonoBehaviour
             cell.localPosition = new Vector3(0.0f, -(m_fields.Count + 1) * cellManager.GetHeight(), 0.0f);
             m_fields.Add(cell);
         }
-    }
-
-    // Update is called once per frame
-    void Update() {
-
     }
 }

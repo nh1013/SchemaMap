@@ -17,14 +17,9 @@ public class SchemaManager : MonoBehaviour
     public bool m_isSource = true;      // true for source manager, false for target manager
     public string m_schemaName;
     public string m_databaseName = "";
-    private float m_spacing = 0.5f;
+    private float m_spacing = 0.3f;
     private float m_bottomSpace = 0;
     private float m_backShift = 0;
-
-    // Use this for initialization
-    void Start () {
-		
-	}
 
     /*
     /// <summary>
@@ -50,6 +45,7 @@ public class SchemaManager : MonoBehaviour
         }
         m_tableList.Clear();
         m_schemaName = "";
+        m_databaseName = "";
         m_bottomSpace = 0;
         m_backShift = 0;
     }
@@ -67,11 +63,15 @@ public class SchemaManager : MonoBehaviour
         table.GetComponent<TableManager>().SetName(name);
         table.GetComponent<TableManager>().SetFields(fields);
         m_tableList.Add(table);
-        if (table.position.y - table.GetComponent<TableManager>().GetHeight() < 0) {
-            m_bottomSpace = 0;
-            m_backShift -= 0.5f;
-        }
+
+        // if table is too low, move it up
         table.localPosition = new Vector3(0.0f, m_bottomSpace, m_backShift);
+        if (table.position.y - table.GetComponent<TableManager>().GetHeight() < 0) {
+            Debug.Log("Switch rows!");
+            m_bottomSpace = 0;
+            m_backShift -= 1.0f;
+            table.localPosition = new Vector3(0.0f, m_bottomSpace, m_backShift);
+        }
         m_bottomSpace -= table.GetComponent<TableManager>().GetHeight() + m_spacing;
     }
 }

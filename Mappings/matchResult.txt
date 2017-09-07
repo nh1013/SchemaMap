@@ -1,0 +1,24 @@
+MatchResult [5,4]
+Schemas/personCarCity-source.sql
+Schemas/personCarCity-target.sql
+--------------------------------------------------------
+ - cityRegion.cityName <-> city.name: 0.49
+ - cityRegion.region <-> city.region: 0.85
+ - cityRegion <-> city: 0.52
+ - personCar2.personName <-> person.name: 0.22
+ - personCar2.carModel <-> car.model: 1.00
+ - personCar1.age <-> person.age: 0.79
+ - personCar1.carPlate <-> car.plate: 0.45
+ - personCar1 <-> person.name: 1.00
+ - personCar1 <-> person: 0.53
+ - personCity.cityName <-> person.name: 0.52
+ - personCity <-> city.name: 0.72
+ - personCity <-> person.name: 1.00
+ - carMake.carModel <-> car.model: 0.53
+ - carMake.makeName <-> make.name: 0.44
+ - carMake <-> car.model: 0.34
+ - personCity.personName <-> city.name: 1.00
+ - carMake.makeName <-> car.id: 1.00
+ - personCar2 <-> car.makeId: 1.00
+ + Total: 18 correspondences
+--------------------------------------------------------

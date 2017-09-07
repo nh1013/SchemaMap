@@ -8,14 +8,10 @@ public class MappingManager : MonoBehaviour
 
     public Transform SourceManager;
     public Transform TargetManager;
+    public PopupSystem popupSys;
 
     public bool debugMode = false;
     public List<Transform> m_BeamList;
-
-    // Use this for initialization
-    void Start() {
-
-    }
 
     /// <summary>
     /// In-game addition of a beam, specifying fields via strings
@@ -29,8 +25,19 @@ public class MappingManager : MonoBehaviour
     public bool AddBeam(string sTableName, string sFieldName, string tTableName, string tFieldName, float confidence = 1.0f) {
         // check if the fields exist
         Transform sField, tField;
+        if (sTableName.Length == 0) {
+            popupSys.DisplayMessage("Import error: source table name empty");
+            Debug.Log("source table name empty");
+            return false;
+        }
+        if (tTableName.Length == 0) {
+            popupSys.DisplayMessage("Import error: target table name empty");
+            Debug.Log("target table name empty");
+            return false;
+        }
         Transform sTable = SourceManager.Find(sTableName);
         if (sTable == null) {
+            popupSys.DisplayMessage("Import error: source table not found: " + sTableName);
             Debug.Log("source table not found: " + sTableName);
             return false;
         }
@@ -40,6 +47,7 @@ public class MappingManager : MonoBehaviour
         else {
             sField = sTable.Find(sFieldName);
             if (sField == null) {
+                popupSys.DisplayMessage("Import error: source field not found: " + sFieldName);
                 Debug.Log("source field not found: " + sFieldName);
                 return false;
             }
@@ -47,6 +55,7 @@ public class MappingManager : MonoBehaviour
 
         Transform tTable = TargetManager.Find(tTableName);
         if (tTable == null) {
+            popupSys.DisplayMessage("Import error: target table not found: " + tTableName);
             Debug.Log("target table not found: " + tTableName);
             return false;
         }
@@ -56,6 +65,7 @@ public class MappingManager : MonoBehaviour
         else {
             tField = tTable.Find(tFieldName);
             if (tField == null) {
+                popupSys.DisplayMessage("Import error: target field not found: " + tFieldName);
                 Debug.Log("target field not found: " + tFieldName);
                 return false;
             }

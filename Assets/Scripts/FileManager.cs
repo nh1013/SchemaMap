@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.IO;
@@ -22,7 +23,7 @@ public class FileManager : MonoBehaviour {
     public SchemaManager SourceManager;
     public SchemaManager TargetManager;
     public MappingManager MapManager;
-    public PopupSystem popup;
+    public PopupSystem popupSys;
 
     public bool debugMode = false;
     //private string m_sourceAddress;
@@ -33,9 +34,9 @@ public class FileManager : MonoBehaviour {
         RefreshFiles("Schemas");
         RefreshFiles("Mappings");
         // for testing
-        ImportSchema("personCarCity-source", true);
-        ImportSchema("personCarCity-target", false);
-        ImportMapping("MatchResult1");
+        //ImportSchema("personCarCity-source", true);
+        //ImportSchema("personCarCity-target", false);
+        //ImportMapping("MatchResult1");
     }
 
     /// <summary>
@@ -118,6 +119,7 @@ public class FileManager : MonoBehaviour {
                 string[] words = line.Split(seperators);
                 // check if database name is already set
                 if (schemaManager.m_databaseName.Length != 0) {
+                    popupSys.DisplayMessage("Second database detected in schema! Import failed");
                     Debug.Log("Error: second database name detected: " + words[2]);
                     Debug.Log("Aborting schema import...");
                     schemaManager.ClearSchema();
@@ -166,7 +168,7 @@ public class FileManager : MonoBehaviour {
         if (schemaManager.m_databaseName.Length == 0) {
             Debug.Log("Note: Database name not found for: " + path);
         }
-        popup.DisplayMessage("Schema imported!");
+        popupSys.DisplayMessage("Schema imported!");
         sr.Close();
     }
 
@@ -212,21 +214,34 @@ public class FileManager : MonoBehaviour {
                 }
             }
             // send each mapping to mapping manager, call AddBeam(table, field, table2, field2, confidence)
+            float confidence;
+            try {
+                confidence = float.Parse(match.Groups[5].Value, CultureInfo.InvariantCulture);
+            } catch (Exception e) {
+                confidence = 1.00f;
+            }
+            Debug.Log(match.Groups[1].Value);
+            Debug.Log(match.Groups[2].Value);
+            Debug.Log(match.Groups[3].Value);
+            Debug.Log(match.Groups[4].Value);
+            Debug.Log(match.Groups[5].Value);
             bool addSuccess = MapManager.AddBeam(
                 match.Groups[1].Value, 
                 match.Groups[2].Value, 
                 match.Groups[3].Value, 
                 match.Groups[4].Value,
-                float.Parse(match.Groups[5].Value, System.Globalization.CultureInfo.InvariantCulture)
+                confidence
             );
             // on fail, clear existing mapping, log error
             if (!addSuccess) {
+                popupSys.DisplayMessage("Import failed: input not valid");
                 Debug.Log("Import failed, clearing existing mapping");
                 MapManager.ClearBeams();
-                break;
+                sr.Close();
+                return;
             }
         }
-        popup.DisplayMessage("Mapping imported!");
+        popupSys.DisplayMessage("Mapping imported!");
         sr.Close();
     }
 
@@ -253,12 +268,12 @@ public class FileManager : MonoBehaviour {
         foreach (Transform beam in MapManager.m_BeamList) {
             string beamSourceName = beam.GetComponent<MappingBeam>().m_SourceField.GetComponent<FieldCell>().m_fullName;
             string beamTargetName = beam.GetComponent<MappingBeam>().m_TargetField.GetComponent<FieldCell>().m_fullName;
-            float beamConfidence = beam.GetComponent<MappingBeam>().m_confidence;
+            string beamConfidence = beam.GetComponent<MappingBeam>().m_confidence.ToString("F2", CultureInfo.InvariantCulture);
             sw.WriteLine(" - " + beamSourceName + " <-> " + beamTargetName + ": " + beamConfidence);
         }
         sw.WriteLine(" + Total: " + MapManager.m_BeamList.Count + " correspondences");
         sw.WriteLine("--------------------------------------------------------");
-        popup.DisplayMessage("Mapping exported!");
+        popupSys.DisplayMessage("Mapping exported!");
         sw.Close();
         RefreshFiles("Mappings");
     }
