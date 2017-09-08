@@ -234,7 +234,6 @@ public class FileManager : MonoBehaviour {
             );
             // on fail, clear existing mapping, log error
             if (!addSuccess) {
-                popupSys.DisplayMessage("Import failed: input not valid");
                 Debug.Log("Import failed, clearing existing mapping");
                 MapManager.ClearBeams();
                 sr.Close();
