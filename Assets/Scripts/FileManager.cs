@@ -206,7 +206,7 @@ public class FileManager : MonoBehaviour {
             }
             // input format: - [table].[field] <-> [table].[field]: [confidence]
             // 2nd field may not exist - interpreted as empty strings
-            Regex mapRX = new Regex(@"\s\-\s(\w*)\.?(\w*)\s.{3}\s(\w*)\.?(\w*)\:\s(\d*\.\d*)");
+            Regex mapRX = new Regex(@"\s\-\s(\w*)\.?(\w*)\s.{3}\s(\w*)\.?(\w*)\:\s(\d*\.*\d*)");
             Match match = mapRX.Match(line);
             if (debugMode) {
                 for (int i = 1; i <= 5; i++) {

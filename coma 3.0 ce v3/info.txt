@@ -1,0 +1,16 @@
+-----------------------------------------------------------------------------------------
+   COMA 3.0 Community Edition
+-----------------------------------------------------------------------------------------
+
+ Version 2.
+ 
+ Start coma.bat to run COMA. Make sure that MySQL is running on your machine and that
+ COMA has access to create a database.
+
+ This version was built on November 7, 2012 and provided to sourceforge.net. For more
+ information, please see the project site http://sourceforge.net/projects/coma-ce
+ or the reference site of University of Leipzig, http://dbs.uni-leipzig.de.
+
+
+ Patrick Arnold
+ University of Leipzig
