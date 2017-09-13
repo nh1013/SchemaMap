@@ -65,7 +65,7 @@ The official COMA installation and support guide can be found here: https://dbs.
 Once Java and MySQL are installed, COMA requires access to a MySQL database:
 - Create a server, which can be hosted locally
 - Create a database named "coma-project"
-- Grant full privileges to User "coma"
+- Grant full privileges to User "coma", password "12345". This can be configured in the text file "coma.properties"
 
 After this, if the MySQL server is running, COMA can be launched directly by opening "coma.bat", within the folder "coma 3.0 ce v3".
 
