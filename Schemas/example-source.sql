@@ -7,7 +7,8 @@ CREATE TABLE Country
  Code VARCHAR(4),
  Capital VARCHAR(35),
  Area FLOAT,
- Population INT);
+ Population INT
+ );
 
 CREATE TABLE City
 (Name VARCHAR(35),
@@ -15,23 +16,27 @@ CREATE TABLE City
  Country VARCHAR(4),
  Population INT,
  Longitude FLOAT,
- Latitude FLOAT);
+ Latitude FLOAT
+ );
 
 CREATE TABLE Mountain
 (Name VARCHAR(35),
  Height FLOAT,
  Type VARCHAR(10),
  Longitude FLOAT,
- Latitude FLOAT);
+ Latitude FLOAT
+ );
 
 CREATE TABLE Sea
 (Name VARCHAR(35),
  Depth FLOAT,
  Longitude FLOAT,
- Latitude FLOAT);
+ Latitude FLOAT
+ );
 
 CREATE TABLE River
 (Name VARCHAR(35),
  Length FLOAT,
  Longitude FLOAT,
- Latitude FLOAT);
+ Latitude FLOAT
+ );

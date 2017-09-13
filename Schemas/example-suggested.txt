@@ -1,0 +1,25 @@
+MatchResult [29,12]
+ICL\coma_3_0_ce_v3\examples\example_source
+ICL\coma_3_0_ce_v3\examples\example_target
+--------------------------------------------------------
+ - Mountain.Name <-> Location.Name: 0.8098
+ - Mountain.Type <-> Geography.Type: 0.806836
+ - Mountain.Longitude <-> Geography.Longitude: 1.0
+ - Mountain.Latitude <-> Geography.Latitude: 1.0
+ - Mountain <-> Geography: 0.452381
+ - Country.Code <-> Location.Code: 1.0
+ - Country.Area <-> Location.Area: 0.782085
+ - Country.Population <-> Location.Population: 1.0
+ - River.Longitude <-> Geography.Longitude: 1.0
+ - River.Latitude <-> Geography.Latitude: 1.0
+ - City.Name <-> Location.Name: 1.0
+ - City.Latitude <-> Location.Latitude: 0.848484
+ - City.Code <-> Location.Code: 0.804039
+ - City.Population <-> Location.Population: 0.865028
+ - City <-> Location: 0.427778
+ - Sea.Name <-> Location.Name: 0.8098
+ - Sea.Longitude <-> Location.Longitude: 0.854978
+ - Sea.Latitude <-> Location.Latitude: 0.852746
+ + Total: 18 correspondences
+--------------------------------------------------------
+
